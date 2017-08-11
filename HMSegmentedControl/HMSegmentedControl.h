@@ -23,12 +23,13 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlSelectionStyle) {
 typedef NS_ENUM(NSInteger, HMSegmentedControlSelectionIndicatorLocation) {
     HMSegmentedControlSelectionIndicatorLocationUp,
     HMSegmentedControlSelectionIndicatorLocationDown,
-	HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
+    HMSegmentedControlSelectionIndicatorLocationNone // No selection indicator
 };
 
 typedef NS_ENUM(NSInteger, HMSegmentedControlSegmentWidthStyle) {
     HMSegmentedControlSegmentWidthStyleFixed, // Segment width is fixed
     HMSegmentedControlSegmentWidthStyleDynamic, // Segment width will only be as big as the text width (including inset)
+    HMSegmentedControlSegmentWidthStyleAdjustable, // Segment width is adjustable through 'selectionIndicatorWidth'
 };
 
 typedef NS_OPTIONS(NSInteger, HMSegmentedControlBorderType) {
@@ -46,7 +47,7 @@ enum {
 typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
     HMSegmentedControlTypeText,
     HMSegmentedControlTypeImages,
-	HMSegmentedControlTypeTextImages
+    HMSegmentedControlTypeTextImages
 };
 
 @interface HMSegmentedControl : UIControl
@@ -200,6 +201,13 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
 @property (nonatomic, readwrite) CGFloat selectionIndicatorHeight;
 
 /**
+ Height of the selection indicator. Only effective when `HMSegmentedControlSegmentWidthStyle` is `HMSegmentedControlSegmentWidthStyleAdjustable`.
+ 
+ Default is 20.0
+ */
+@property (nonatomic, readwrite) CGFloat selectionIndicatorWidth;
+
+/**
  Edge insets for the selection indicator.
  NOTE: This does not affect the bounding box of HMSegmentedControlSelectionStyleBox
  
@@ -208,9 +216,9 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
  When HMSegmentedControlSelectionIndicatorLocationDown is selected, top edge insets are not used
  
  Defaults are top: 0.0f
-             left: 0.0f
-           bottom: 0.0f
-            right: 0.0f
+ left: 0.0f
+ bottom: 0.0f
+ right: 0.0f
  */
 @property (nonatomic, readwrite) UIEdgeInsets selectionIndicatorEdgeInsets;
 
