@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                     Frok from [HMSegmentedControl](https://github.com/HeshamMegid/HMSegmentedControl), fix the bug of HMSegmentedControl, and add round corner indicator function.
                    DESC
-  s.homepage     = "http://EXAMPLE/M6SegmentedControl"
+  s.homepage     = "https://github.com/M6666/HMSegmentedControl"
   s.license      = "MIT"
   s.author             = { "chenyu" => "chenyu@yy.com" }
   s.source       = { :git => "https://github.com/M6666/HMSegmentedControl", :tag => "v2.0.0" }
