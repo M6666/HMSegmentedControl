@@ -272,12 +272,12 @@
     UIRectFill([self bounds]);
     
     self.selectionIndicatorArrowLayer.backgroundColor = self.selectionIndicatorColor.CGColor;
-    
     self.selectionIndicatorStripLayer.backgroundColor = self.selectionIndicatorColor.CGColor;
+    self.selectionIndicatorStripLayer.cornerRadius = self.selectionIndicatorHeight / 2;
+    self.selectionIndicatorStripLayer.masksToBounds = YES;
     
     self.selectionIndicatorBoxLayer.backgroundColor = self.selectionIndicatorBoxColor.CGColor;
     self.selectionIndicatorBoxLayer.borderColor = self.selectionIndicatorBoxColor.CGColor;
-    
     // Remove all sublayers to avoid drawing images over existing ones
     self.scrollView.layer.sublayers = nil;
     
@@ -388,7 +388,7 @@
             CGFloat imageHeight = icon.size.height;
             
             CGFloat stringHeight = [self measureTitleAtIndex:idx].height;
-            CGFloat yOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight) / 2) - (stringHeight / 2));
+            CGFloat yOffset = roundf(((CGRectGetHeight(self.frame) - self.selectionIndicatorHeight + self.selectionIndicatorEdgeInsets.bottom) / 2) - (stringHeight / 2));
             
             CGFloat imageXOffset = self.segmentEdgeInset.left; // Start with edge inset
             CGFloat textXOffset  = self.segmentEdgeInset.left;
@@ -608,7 +608,7 @@
                     selectedSegmentOffset = selectedSegmentOffset + [width floatValue];
                     i++;
                 }
-                return CGRectMake(selectedSegmentOffset + self.selectionIndicatorEdgeInsets.left + [[self.segmentWidthsArray objectAtIndex:self.selectedSegmentIndex] floatValue] / 2 - self.selectionIndicatorWidth / 2, indicatorYOffset, self.selectionIndicatorWidth, self.selectionIndicatorHeight + self.selectionIndicatorEdgeInsets.bottom);
+                return CGRectMake(selectedSegmentOffset + self.selectionIndicatorEdgeInsets.left + [[self.segmentWidthsArray objectAtIndex:self.selectedSegmentIndex] floatValue] / 2 - self.selectionIndicatorWidth / 2, indicatorYOffset, self.selectionIndicatorWidth, self.selectionIndicatorHeight);
             }
             
             return CGRectMake((self.segmentWidth + self.selectionIndicatorEdgeInsets.left) * self.selectedSegmentIndex, indicatorYOffset, self.segmentWidth - self.selectionIndicatorEdgeInsets.right, self.selectionIndicatorHeight);
@@ -670,11 +670,10 @@
     } else if (self.type == HMSegmentedControlTypeTextImages && (self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleDynamic || self.segmentWidthStyle == HMSegmentedControlSegmentWidthStyleAdjustable)) {
         NSMutableArray *mutableSegmentWidths = [NSMutableArray array];
         
-        int i = 0;
         [self.sectionTitles enumerateObjectsUsingBlock:^(id titleString, NSUInteger idx, BOOL *stop) {
-            CGFloat stringWidth = [self measureTitleAtIndex:idx].width + self.segmentEdgeInset.right;
-            UIImage *sectionImage = [self.sectionImages objectAtIndex:i];
-            CGFloat imageWidth = sectionImage.size.width + self.segmentEdgeInset.left;
+            CGFloat stringWidth = [self measureTitleAtIndex:idx].width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
+            UIImage *sectionImage = [self.sectionImages objectAtIndex:idx];
+            CGFloat imageWidth = sectionImage.size.width + self.segmentEdgeInset.left + self.segmentEdgeInset.right;
             
             CGFloat combinedWidth = MAX(imageWidth, stringWidth);
             
