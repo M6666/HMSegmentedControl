@@ -242,5 +242,6 @@ typedef NS_ENUM(NSInteger, HMSegmentedControlType) {
 - (void)setSelectedSegmentIndex:(NSUInteger)index animated:(BOOL)animated;
 - (void)setIndexChangeBlock:(IndexChangeBlock)indexChangeBlock;
 - (void)setTitleFormatter:(HMTitleFormatterBlock)titleFormatter;
+- (void)showBadgeAtIndexes:(NSArray <NSNumber *> *)indexes;
 
 @end

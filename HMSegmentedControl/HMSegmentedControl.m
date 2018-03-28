@@ -21,6 +21,7 @@
 @property (nonatomic, readwrite) CGFloat segmentWidth;
 @property (nonatomic, readwrite) NSArray<NSNumber *> *segmentWidthsArray;
 @property (nonatomic, strong) HMScrollView *scrollView;
+@property (nonatomic, strong) NSArray <NSNumber *> *badges;
 
 @end
 
@@ -335,6 +336,25 @@
             
             [self.scrollView.layer addSublayer:titleLayer];
             
+            // add redPoint
+            NSNumber *index = @(idx);
+            if (self.badges) {
+                if (NSNotFound != [self.badges indexOfObject:index]) {
+                    CGFloat textW = [self measureTitleAtIndex:idx].width;
+                    CGFloat x = titleLayer.frame.origin.x + titleLayer.frame.size.width / 2   + textW /
+                    2;
+                    CGFloat y = CGRectGetMinY(titleLayer.frame);
+                    CGFloat width = 5;
+                    CGFloat height = width;
+                    CALayer *redPointLayer = [CALayer layer];
+                    redPointLayer.frame = CGRectMake(x, y, width, height);
+                    redPointLayer.backgroundColor = [UIColor redColor].CGColor;
+                    redPointLayer.cornerRadius = 2.5;
+                    [self.scrollView.layer addSublayer:redPointLayer];
+                    
+                }
+            }
+            
             // Vertical Divider
             if (self.isVerticalDividerEnabled && idx > 0) {
                 CALayer *verticalDividerLayer = [CALayer layer];
@@ -377,6 +397,22 @@
                 verticalDividerLayer.backgroundColor = self.verticalDividerColor.CGColor;
                 
                 [self.scrollView.layer addSublayer:verticalDividerLayer];
+            }
+            
+            // add redPoint
+            NSNumber *index = @(idx);
+            if (self.badges) {
+                if (NSNotFound != [self.badges indexOfObject:index]) {
+                    CGFloat x = CGRectGetMaxX(imageLayer.frame);
+                    CGFloat y = CGRectGetMinY(imageLayer.frame);
+                    CGFloat width = 5;
+                    CGFloat height = width;
+                    CALayer *redPointLayer = [CALayer layer];
+                    redPointLayer.frame = CGRectMake(x, y, width, height);
+                    redPointLayer.backgroundColor = [UIColor redColor].CGColor;
+                    redPointLayer.cornerRadius = 2.5;
+                    [self.scrollView.layer addSublayer:redPointLayer];
+                }
             }
             
             [self addBackgroundAndBorderLayerWithRect:rect];
@@ -448,6 +484,25 @@
             [self.scrollView.layer addSublayer:imageLayer];
             titleLayer.contentsScale = [[UIScreen mainScreen] scale];
             [self.scrollView.layer addSublayer:titleLayer];
+            
+            // add redPoint
+            NSNumber *index = @(idx);
+            if (self.badges) {
+                if (NSNotFound != [self.badges indexOfObject:index]) {
+                    CGFloat textW = [self measureTitleAtIndex:idx].width;
+                    CGFloat x = titleLayer.frame.origin.x + titleLayer.frame.size.width / 2   + textW /
+                    2;
+                    CGFloat y = CGRectGetMinY(titleLayer.frame);
+                    CGFloat width = 5;
+                    CGFloat height = width;
+                    CALayer *redPointLayer = [CALayer layer];
+                    redPointLayer.frame = CGRectMake(x, y, width, height);
+                    redPointLayer.backgroundColor = [UIColor redColor].CGColor;
+                    redPointLayer.cornerRadius = 2.5;
+                    [self.scrollView.layer addSublayer:redPointLayer];
+                    
+                }
+            }
             
             [self addBackgroundAndBorderLayerWithRect:imageRect];
         }];
@@ -911,6 +966,12 @@
     }
     
     return [resultingAttrs copy];
+}
+
+- (void)showBadgeAtIndexes:(NSArray<NSNumber *> *)indexes {
+    _badges = indexes;
+    [self setNeedsLayout];
+    [self setNeedsDisplay];
 }
 
 @end
